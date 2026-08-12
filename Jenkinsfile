@@ -1,26 +1,37 @@
 pipeline{
   agent any
+
   stages{
-    stage('checkout from git'){
-      steps{
+
+    stage('Checkout') {
+    steps {
         checkout scm
       }
     }
 
-    stage('Terrafrom Init'){
-      steps{
+    stage('Terraform Init'){
+      steps {
+        
         sh 'terraform init'
       }
     }
 
-    stage('Terraform Format'){
+    
+
+    stage('Terraform Validate'){
       steps{
-        sh 'terraform fmt -check'
+        sh 'terraform validate'
       }
     }
 
-    stage('Terraform plan '){
-       steps {
+    stage('Terraform Format') {
+    steps {
+        sh 'terraform fmt -check'
+      }
+    }
+    
+    stage('Terraform Plan') {
+    steps {
         withCredentials([
             [$class: 'AmazonWebServicesCredentialsBinding',
              credentialsId: 'AWS_Tokens_Jiten']
@@ -28,18 +39,21 @@ pipeline{
             sh 'terraform plan -out=tfplan'
         }
     }
-  }
+    }
 
-    stage('Terraform Apply'){
-      steps{
+    stage('Terraform Apply') {
+    steps {
         input 'Apply Infrastructure?'
-         withCredentials([
+
+        withCredentials([
             [$class: 'AmazonWebServicesCredentialsBinding',
              credentialsId: 'AWS_Tokens_Jiten']
         ]) {
             sh 'terraform apply -auto-approve tfplan'
-        } 
-      }
+        }
     }
 }
+
+    
+  }
 }
