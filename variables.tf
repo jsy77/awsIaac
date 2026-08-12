@@ -39,3 +39,8 @@ variable "key_name" {
 variable "usedfor" {
   type = string
 }
+
+variable "description" {
+  type = string
+  
+}

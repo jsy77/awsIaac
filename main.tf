@@ -12,7 +12,7 @@ resource "aws_instance" "my_ec2" {
   
   subnet_id              = var.subnet_id
 
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   key_name                    = var.key_name
 
   root_block_device {

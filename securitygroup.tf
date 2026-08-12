@@ -1,5 +1,5 @@
 resource "aws_security_group" "ec2_sg" {
-  description = "public-client-sg"
+  description = "${var.description}-sg"
   vpc_id      = var.vpc_id
   name        = var.sg_name
 
