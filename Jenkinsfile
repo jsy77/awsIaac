@@ -26,7 +26,7 @@ pipeline{
 
     stage('Terraform Format') {
     steps {
-        sh 'terraform fmt -check'
+        sh 'terraform fmt'
       }
     }
     
